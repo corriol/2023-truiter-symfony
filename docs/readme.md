@@ -23,3 +23,66 @@ Per a generar el fitxer `.htaccess` usarem la recepta:
 ```
 composer require symfony/apache-pack
 ```
+
+## Controladors i rutes
+
+`maker-bundle` permet, entre altres coses, crear controladors.
+
+```
+php bin/console make:controller Default
+```
+
+
+```php
+    #[Route("/", name: "home")]
+    public function index(): Response
+    {
+        return $this->render('default/index.html.twig', [
+            'controller_name' => 'DefaultController',
+        ]);
+    }
+``` 
+
+La definició de la ruta es pot fer de diverses formes, en aquest cas 
+les hem fet mitjançant atributs.
+
+```php
+#[Route("/{id}", 
+    name: "tweets_user_id", 
+    requirements: ["id" => "\d+"], 
+    methods: ["GET"], 
+    priority: 2)
+]
+```
+
+## Vistes
+
+Per a la definició de vistes usem *Twig*, un motor de plantilles basat en
+un `ruby`. El que fa que canvie un pèl la sintaxi emprada.
+
+El mètode `AbstractControler::render` permet generar la vista i tornar-la 
+com un objecte `Response`.
+
+### Plantilla base o _layout_
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>
+```

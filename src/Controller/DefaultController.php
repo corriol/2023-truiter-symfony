@@ -17,21 +17,35 @@ class DefaultController extends AbstractController
         return $this->redirectToRoute("home");
 
     }
-    #[Route("/{id}", name: "tweets_user_id", requirements: ["id" => "\d+"])]
+
+    #[Route("/{id}", name: "tweets_user_id", requirements: ["id" => "\d+"], methods: ["GET"], priority: 2)]
     public function tweetsByUserId(int $id): Response
     {
-        return new Response("Tweets de l'usuari amb id: {$id}");
+        $text = "Tweets de l'usuari amb id: {$id}";
+
+        return $this->render('default/sample.html.twig', [
+            'message'=> $text
+        ]);
     }
 
     #[Route("/{username}", name: "tweets_username")]
     public function tweetsByUsername(string $username): Response
     {
-        return new Response("Tweets de l'usuari: {$username}");
+        $text = "Tweets de l'usuari: {$username}";
+
+        return $this->render('default/sample.html.twig', [
+            'message'=> $text
+        ]);
     }
 
     #[Route("/home", name: "home", priority: 1)]
     public function home(): Response
     {
-        return new Response("Pàgina principal");
+        $message = "Pàgina principal";
+
+        return $this->render('default/sample.html.twig', [
+            'message'=> $message
+        ]);
+
     }
 }
