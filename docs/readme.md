@@ -86,3 +86,35 @@ com un objecte `Response`.
     </body>
 </html>
 ```
+
+Vista d'exemple `sample.html.twig` 
+
+```html
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ message }}
+{% endblock %}
+```
+
+# Sessió 2: Model de dades
+
+## Terminologia
+
+- Un ORM (_Object Relational Mapping_) és un _framework_ encarregat de tractar amb una base de 
+dades relacional (connectar amb ella, realitzar operacions de consulta, inserció, etc.), 
+de manera que, de cara a l'aplicació, es converteixen a objectes tots els elements 
+que s'extraguen de la base de dades i viceversa (els objectes de l'aplicació es transformen 
+en registres de la base de dades, arribat el cas).
+- Una **entitat** és un objecte que representa un registre d'una taula de base de dades de manera que es puga
+treballar amb ell de manera més còmoda.
+- Un **repositori** és un objecte que s'utilitza per a interactuar amb les dades emmagatzemades en una base de dades. 
+És a dir, és un objecte que et permet llegir, escriure i actualitzar les dades d'una taula de base de dades de 
+manera senzilla.
+
+## Creació d'entitats
+
+```
+php bin/console make:entity User
+php bin/console make:entity Tweet
+```
+
