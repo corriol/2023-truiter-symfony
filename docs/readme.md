@@ -125,6 +125,8 @@ de dades.
 - Els **entorns** són conjunts de configuracions que es fan servir per a controlar el comportament de la teua 
 aplicació en diferents escenaris, com ara desenvolupament, producció o test. Fitxer .env
 
+- **Bundle**, integració d'un paquet en Symfony.
+
 ```
 docker exec -it 2023-truiter-symfony_web-server_1 /bin/bash
 ```
@@ -138,3 +140,19 @@ php bin/console doctrine:migrations:migrate
 **Error**
 > The metadata storage is not up to date, please run the sync-metadata-storage command to fix this issue.  
 
+**Solution**
+```
+ServerVersion=mariadb-10.4.14
+```
+
+## Loading demo (fake) data
+
+```
+composer require --dev orm-fixtures
+```
+
+https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html
+
+```
+php bin/console doctrine:fixtures:load
+```
