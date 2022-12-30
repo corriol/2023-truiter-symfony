@@ -118,3 +118,19 @@ php bin/console make:entity User
 php bin/console make:entity Tweet
 ```
 
+- Una **migració** en Symfony és un _script_ que es fa servir per a modificar l'estructura de la base de dades 
+de la teua aplicació de manera consistent i eficient. Una migració descriu els canvis que es volen fer a la base
+de dades.
+
+- Els **entorns** són conjunts de configuracions que es fan servir per a controlar el comportament de la teua 
+aplicació en diferents escenaris, com ara desenvolupament, producció o test. Fitxer .env
+
+```
+docker exec -it 2023-truiter-symfony_web-server_1 /bin/bash
+```
+
+```
+php bin/console doctrine:database:create
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+``` 
