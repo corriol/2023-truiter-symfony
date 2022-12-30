@@ -134,3 +134,7 @@ php bin/console doctrine:database:create
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ``` 
+
+**Error**
+> The metadata storage is not up to date, please run the sync-metadata-storage command to fix this issue.  
+

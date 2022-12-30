@@ -2,6 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Tweet;
+use App\Entity\User;
+use App\Repository\TweetRepository;
+use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,12 +44,34 @@ class DefaultController extends AbstractController
     }
 
     #[Route("/home", name: "home", priority: 1)]
-    public function home(): Response
+    public function home(UserRepository $userRepository, TweetRepository $tweetRepository ): Response
     {
-        $message = "Pàgina principal";
+
+        $user = $userRepository->findOneBy(["username"=>"user"]);
+        if (!$user) {
+            $user = new User();
+            $user->setUsername("user");
+            $user->setName("Usuari de prova");
+            $user->setPassword("prova");
+            $user->setCreatedAt(new DateTime());
+            $user->setVerified(false);
+            $userRepository->save($user);
+        }
+
+        $tweets = $tweetRepository->findAll();
+
+        $tweet = new Tweet();
+        $tweet->setAuthor($user);
+        $tweet->setText("My tweet #" . count($tweets) + 1);
+        $tweet->setCreatedAt(new DateTime());
+        $tweet->setLikeCount(0);
+
+        $tweetRepository->save($tweet, true);
+
+        $tweets = $tweetRepository->findAll();
 
         return $this->render('default/sample.html.twig', [
-            'message'=> $message
+            'tweets'=> $tweets
         ]);
 
     }

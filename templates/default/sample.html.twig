@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    {{ message }}
+    {% for tweet in tweets %}
+        <div>{{ tweet.text }} <strong>@{{ tweet.author.username }}</strong></div>
+    {% endfor %}
 {% endblock %}
