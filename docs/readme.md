@@ -156,3 +156,7 @@ https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html
 ```
 php bin/console doctrine:fixtures:load
 ```
+
+fakerphp/php
+
+https://fakerphp.github.io/

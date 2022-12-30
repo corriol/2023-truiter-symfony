@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     {% for tweet in tweets %}
-        <div>{{ tweet.text }} <strong>@{{ tweet.author.username }}</strong></div>
+        <div>{{ tweet.text }} <strong>@{{ tweet.author.username }}</strong>
+        {{ tweet.createdAt |  date("d/m/Y") }}
+        </div>
     {% endfor %}
 {% endblock %}
