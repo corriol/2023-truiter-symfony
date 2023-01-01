@@ -10,6 +10,7 @@ use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class DefaultController extends AbstractController
 {
@@ -44,9 +45,8 @@ class DefaultController extends AbstractController
     }
 
     #[Route("/home", name: "home", priority: 1)]
-    public function home(UserRepository $userRepository, TweetRepository $tweetRepository ): Response
+    public function home(UserRepository $userRepository, TweetRepository $tweetRepository, ValidatorInterface $validator): Response
     {
-
         $user = $userRepository->findOneBy(["username"=>"user"]);
         if (!$user) {
             $user = new User();
@@ -55,6 +55,7 @@ class DefaultController extends AbstractController
             $user->setPassword("prova");
             $user->setCreatedAt(new DateTime());
             $user->setVerified(false);
+
             $userRepository->save($user);
         }
 
@@ -65,6 +66,14 @@ class DefaultController extends AbstractController
         $tweet->setText("My tweet #" . count($tweets) + 1);
         $tweet->setCreatedAt(new DateTime());
         $tweet->setLikeCount(0);
+
+        $errors = $validator->validate($tweet);
+
+       // dump($errors);
+
+        if (count($errors) > 0)
+            return new Response($errors);
+
 
         $tweetRepository->save($tweet, true);
 

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TweetRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TweetRepository::class)]
 class Tweet
@@ -15,16 +16,20 @@ class Tweet
     private ?int $id = null;
 
     #[ORM\Column(length: 280)]
+    #[Assert\Length(min: 2, max: 280)]
     private ?string $text = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?int $likeCount = null;
 
     #[ORM\ManyToOne(inversedBy: 'tweets')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?User $author = null;
 
     public function getId(): ?int

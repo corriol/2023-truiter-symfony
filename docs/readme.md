@@ -160,3 +160,15 @@ php bin/console doctrine:fixtures:load
 fakerphp/php
 
 https://fakerphp.github.io/
+
+## Sessió 3: Validació i Formularis
+
+https://symfony.com/doc/5.4/validation.html
+
+A nivell d'entitat
+
+```
+ValidatorInterface $validator
+```
+
+https://symfony.com/doc/5.4/validation.html#supported-constraints
