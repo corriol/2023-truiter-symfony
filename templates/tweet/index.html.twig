@@ -5,6 +5,9 @@
 {% block body %}
 
 <div class="example-wrapper">
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Crear">
+    {{ form_end(form) }}
 </div>
 {% endblock %}

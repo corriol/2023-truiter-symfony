@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Tweet;
 use App\Entity\User;
+use App\Form\TweetType;
 use App\Repository\TweetRepository;
 use DateTime;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,14 +25,9 @@ class TweetController extends AbstractController
         $tweet->setCreatedAt(new DateTime());
         $tweet->setLikeCount(0);
 
-        $formBuilder = $this->createFormBuilder($tweet)
-            ->add('text', TextareaType::class)
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'username'])
-            ->add('create', SubmitType::class);
+        $form = $this->createForm(TweetType::class, $tweet);
 
-        $form = $formBuilder->getForm();
+
 
         $form->handleRequest($request);
 

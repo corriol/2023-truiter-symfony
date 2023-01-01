@@ -161,7 +161,7 @@ fakerphp/php
 
 https://fakerphp.github.io/
 
-## Sessió 3: Validació i Formularis
+# Sessió 3: Validació i Formularis
 
 https://symfony.com/doc/5.4/validation.html
 
@@ -172,3 +172,8 @@ ValidatorInterface $validator
 ```
 
 https://symfony.com/doc/5.4/validation.html#supported-constraints
+
+## Forms
+https://symfony.com/doc/5.4/forms.html
+
+Object of class App\Entity\User could not be converted to string
