@@ -1,8 +1,9 @@
-{% extends 'base.html.twig' %}
-{% block body %}
+{% extends 'default.html.twig' %}
+{% block content %}
+    <h2>Últims tuits</h2>
     {% for tweet in tweets %}
-        <div>{{ tweet.text }} <strong>@{{ tweet.author.username }}</strong>
-        {{ tweet.createdAt |  date("d/m/Y") }}
-        </div>
+        {% include '_tuit.html.twig' with { truit: tweet }%}
+    {% else %}
+        No hi ha tuits d'aquest usuari
     {% endfor %}
 {% endblock %}

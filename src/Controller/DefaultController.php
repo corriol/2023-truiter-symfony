@@ -35,12 +35,16 @@ class DefaultController extends AbstractController
     }
 
     #[Route("/{username}", name: "tweets_username")]
-    public function tweetsByUsername(string $username): Response
+    public function tweetsByUsername(string $username, UserRepository $userRepository, TweetRepository $tweetRepository): Response
     {
         $text = "Tweets de l'usuari: {$username}";
 
+        $user = $userRepository->findOneBy(["username"=>$username]);
+
+        $tweets = $tweetRepository->findBy(["author"=>$user]);
+
         return $this->render('default/sample.html.twig', [
-            'message'=> $text
+            'tweets'=> $tweets
         ]);
     }
 

@@ -1,0 +1,40 @@
+
+<div class="card mb-2">
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-1 gx-2">
+                <img style="width: 50px" class="border border-light border-3 rounded-circle"
+{#                         {% if truit.author.profile %}
+
+                            src="{{ (profile_url ~ asset( truit.user.profile)) |  imagine_filter('thumb_50') }}"
+#}
+{#                        {% else %}#}
+                            src="{{ asset('assets/twitter-egg.avif') }}"
+{#                        {% endif %}#}
+                >
+            </div>
+            <div class="col-11">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">{{ truit.author.name }}
+                        <small class="text-muted">@{{ truit.author.username }}</small></h5>
+                    <div>{{ truit.createdAt | date('Y-m-d h:i:s') }}</div>
+
+                </div>
+                <p class="card-text">{{ truit.text }}</p>
+            </div>
+
+            {#  {% if truit.image is defined %}
+        <div  style="width: 150px; height: auto" >
+            <img class="w-100 h-100" style="object-fit: scale-down" src="images/{{ truit.image }}" alt="image"/>
+        </div>
+        {%  endif %} #}
+        </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between text-muted">
+        <div class="pe-5"><i class="bi bi-chat"></i></div>
+        <div class="pe-5"><i class="bi bi-arrow-repeat"></i></div>
+        <div class="pe-5"><i class="bi bi-heart"></i></div>
+        <div class="pe-5"><i class="bi bi-share"></i></div>
+    </div>
+
+</div>
