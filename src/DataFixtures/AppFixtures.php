@@ -8,9 +8,13 @@ use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    public function __construct(private UserPasswordHasherInterface $passwordHasher) {
+
+    }
     public function load(ObjectManager $manager): void
     {
         // $product = new Product();
@@ -20,7 +24,10 @@ class AppFixtures extends Fixture
         $user = new User();
         $user->setUsername("user");
         $user->setName("Usuari de prova");
-        $user->setPassword("prova");
+
+        $hashedPassword = $this->passwordHasher->hashPassword($user, "user");
+        $user->setPassword($hashedPassword);
+
         $user->setCreatedAt($faker->dateTimeInInterval('-1 year'));
         $user->setVerified(false);
         $manager->persist($user);
