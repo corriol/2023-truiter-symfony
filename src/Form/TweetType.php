@@ -16,10 +16,6 @@ class TweetType extends AbstractType
     {
         $builder
             ->add('text', TextareaType::class)
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'username'
-            ])
         ;
     }
 

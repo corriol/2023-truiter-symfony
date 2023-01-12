@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\TweetType;
 use App\Repository\TweetRepository;
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -19,15 +20,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class TweetController extends AbstractController
 {
     #[Route('/compose/tweet', name: 'tweet_compose')]
+    #[IsGranted('ROLE_USER')]
     public function compose(Request $request, TweetRepository $tweetRepository): Response
     {
         $tweet = new Tweet();
         $tweet->setCreatedAt(new DateTime());
         $tweet->setLikeCount(0);
 
+        // obtenim les dades de l'usuari que ha iniciat sessió
+        $user = $this->getUser();
+        $tweet->setAuthor($user);
+
         $form = $this->createForm(TweetType::class, $tweet);
-
-
 
         $form->handleRequest($request);
 
