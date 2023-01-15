@@ -177,3 +177,80 @@ https://symfony.com/doc/5.4/validation.html#supported-constraints
 https://symfony.com/doc/5.4/forms.html
 
 Object of class App\Entity\User could not be converted to string
+
+# Sessió 4: Millorant el disseny: plantilles base i partials
+# Sessió 5: Sistema d'autenticació i autorització
+
+## Adaptant l'entitat `User`
+## Implementamt el sistema d'autenticació
+## Implementant el sistema d'autorització
+
+# Sessió 6: Pujada de fitxers
+## Creació de l'entitat 
+
+### Profile
+
+profile, string, 255, yes
+
+### Photo
+
+
+## Instal·lació i configuració de VichUploader
+```
+composer require vich/uploader-bundle
+```
+
+```
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+...
+#[Vich\Uploadable]
+#[Vich\UploadableField(mapping: 'profile',fileNameProperty: 'profile')]
+```
+
+registration-form
+https://symfony.com/doc/5.4/reference/constraints/File.html
+
+```
+
+    /**
+     * String representation of object.
+     * @link https://php.net/manual/en/serializable.serialize.php
+     * @return string|null The string representation of the object or null
+     * @throws Exception Returning other type than string or null
+     */
+    public function serialize(): ?string
+    {
+        return serialize([
+            $this->getId(),
+            $this->getUsername(),
+            $this->getPassword()
+        ]);
+    }
+
+    /**
+     * Constructs the object.
+     * @link https://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized The string representation of the object.
+     * @return void
+     */
+    public function unserialize($serialized)
+    {
+        list( $this->id, $this->username, $this->password) = 
+            unserialize($serialized, ['allowed_classes' => false]);
+    }
+```
+
+Macros to change the prototype
+https://www.youtube.com/watch?v=FAfaiglT5_I
+
+
+https://github.com/dustin10/VichUploaderBundle/blob/master/docs/form/vich_file_type.md
+https://symfony.com/doc/5.4/form/form_collections.html
+
+## Instal·lació i configuració de LiipImagine
+
+
+
+
+
+

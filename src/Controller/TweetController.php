@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Tweet;
 use App\Entity\User;
 use App\Form\TweetType;
+use App\Repository\PhotoRepository;
 use App\Repository\TweetRepository;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -21,7 +22,8 @@ class TweetController extends AbstractController
 {
     #[Route('/compose/tweet', name: 'tweet_compose')]
     #[IsGranted('ROLE_USER')]
-    public function compose(Request $request, TweetRepository $tweetRepository): Response
+    public function compose(Request $request, TweetRepository $tweetRepository,
+                            PhotoRepository $photoRepository): Response
     {
         $tweet = new Tweet();
         $tweet->setCreatedAt(new DateTime());
@@ -36,6 +38,14 @@ class TweetController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $tweet = $form->getData();
+
+            foreach ($tweet->getAttachments() as $photo) {
+                $photo->setTweet($tweet);
+                $photoRepository->save($photo);
+            }
+
             $tweetRepository->save($tweet, true);
 
             $this->addFlash("info", "El nou tweet s'ha creat");

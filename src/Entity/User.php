@@ -8,14 +8,21 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Exception;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\Unique;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueConstraint(name: 'username', columns:["username"])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[Vich\Uploadable]
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -39,6 +46,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Tweet::class)]
     private Collection $tweets;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profile = null;
+
+    #[Vich\UploadableField(mapping: 'profile',fileNameProperty: 'profile')]
+    private ?File $imageProfile = null;
 
     public function __construct()
     {
@@ -168,5 +181,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): ?string
     {
         return $this->getUsername();
+    }
+
+    public function getProfile(): ?string
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?string $profile): self
+    {
+        $this->profile = $profile;
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageProfile(): ?File
+    {
+        return $this->imageProfile;
+    }
+
+    /**
+     * @param File|null $imageProfile
+     */
+    public function setImageProfile(?File $imageProfile): void
+    {
+        $this->imageProfile = $imageProfile;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function serialize()
+    {
+        return serialize([
+            $this->getId(),
+            $this->getUsername(),
+            $this->getPassword()
+        ]);    }
+
+    /**
+     * @param string $data
+     * @return void
+     */
+    public function unserialize(string $data)
+    {
+        list( $this->id, $this->username, $this->password) =
+            unserialize($data, ['allowed_classes' => false]);
     }
 }

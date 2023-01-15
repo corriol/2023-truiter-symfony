@@ -21,6 +21,14 @@
 
                 </div>
                 <p class="card-text">{{ truit.text }}</p>
+                {% if truit.attachments %}
+                <div>
+                    {%  for photo in truit.attachments %}
+                    <img src="{{ vich_uploader_asset(photo, 'photoFile') }}" alt="{{ photo.altText }}">
+                    {% endfor %}
+
+                </div>
+                {% endif %}
             </div>
 
             {#  {% if truit.image is defined %}
