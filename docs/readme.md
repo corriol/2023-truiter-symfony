@@ -185,30 +185,88 @@ Object of class App\Entity\User could not be converted to string
 ## Implementamt el sistema d'autenticació
 ## Implementant el sistema d'autorització
 
-# Sessió 6: Pujada de fitxers
-## Creació de l'entitat 
+# Sessió 6: Pujada de fitxers 
 
-### Profile
-
+## Perfil d'usuari
+### Addició de la propietat `profile` 
 profile, string, 255, yes
 
-### Photo
+### Creació del formulari de registre
 
+Mitjançant `make:registration-form` creem el formulari de registre i indiquem que no volem que s'envie missatge de 
+confirmació i que sí volem que l'entitat `User` siga única.
 
-## Instal·lació i configuració de VichUploader
+Aquesta última opció afig la següent restricció:
+```
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+```
+
+### Instal·lació i configuració de VichUploader
 ```
 composer require vich/uploader-bundle
 ```
+
+1) Cal definir el _mapping_ en `config/packages/vich_uploader.yaml`:
+
+```
+    profile:
+        uri_prefix: /images/profiles
+        upload_destination: '%kernel.project_dir%/public/images/photos'
+        namer: Vich\UploaderBundle\Naming\UniqidNamer
+```
+
+2) Després modifiquem l'entitat afegint en la classe el següent atribut:
 
 ```
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 ...
 #[Vich\Uploadable]
-#[Vich\UploadableField(mapping: 'profile',fileNameProperty: 'profile')]
+...
+```
+3) Definim la propietat `imageProfile`
+```
+    #[Vich\UploadableField(mapping: 'profile',fileNameProperty: 'profile')]
+    private ?File $imageProfile = null;
 ```
 
-registration-form
-https://symfony.com/doc/5.4/reference/constraints/File.html
+4) Adaptem el formulari de registre afegint la propietat `imageProfile`:
+
+```
+            ->add('imageProfile', VichFileType::class, [
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => ['image/gif', 'image/png', 'image/jpeg'],
+                        'mimeTypesMessage' => 'El fitxer ha de ser una imatge'
+                        ]
+                    )
+```
+5) Si en processar el formulari tenim problemes en la validació de `User` caldrà assignar manualment les propietats: 
+   ```
+   $user->setCreatedAt(new DateTime());
+   $user->setVerified(false);
+   ```
+Hi ha alternatives com assignar valors per defecte en la propietat mitjançant el constructor.
+
+Recursos: 
+- https://github.com/dustin10/VichUploaderBundle
+- https://symfony.com/doc/5.4/reference/constraints/File.html
+
+
+
+### Serialització
+
+Respecte a l'error: File cannot be serialized
+
+Cal saber que:
+
+> La serialització és el procés de convertir dades en un format que pot ser guardat o transmès per la xarxa. 
+> Això permet que les dades es puguin desar en disc o enviar a través d'una connexió de xarxa, i després 
+> deserialitzar-les per recuperar les dades originals.
+
+En aquest cas en tractar de serialitzar l'objecte File per guardar-lo en la sessió (i en disc dur) mostra l'error.
+
+Ho solucionarem implementant la interfície `serializable` d'aquesta forma
 
 ```
 
@@ -239,11 +297,20 @@ https://symfony.com/doc/5.4/reference/constraints/File.html
             unserialize($serialized, ['allowed_classes' => false]);
     }
 ```
+TODO: Veure el nou requeriment d'usar els mètodes màgics __serialize i __unserialize 
+
+### Paràmetres
+
+Podem afegir paràmetres de l'aplicació en `config/services.yaml` sota la clau `parameters`, per a Twig en 
+la clau `globals` dintre de la clau `twig`.
+
+
+## Fotos en els tweets.
+
+(pendent)
 
 Macros to change the prototype
 https://www.youtube.com/watch?v=FAfaiglT5_I
-
-
 https://github.com/dustin10/VichUploaderBundle/blob/master/docs/form/vich_file_type.md
 https://symfony.com/doc/5.4/form/form_collections.html
 
