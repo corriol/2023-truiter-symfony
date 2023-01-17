@@ -316,6 +316,12 @@ https://symfony.com/doc/5.4/form/form_collections.html
 
 ## Instal·lació i configuració de LiipImagine
 
+(pendent)
+
+# Sessió 7: Relacions molts a molts
+
+https://www.doctrine-project.org/projects/doctrine-orm/en/2.8/reference/association-mapping.html#many-to-many-unidirectional
+
 
 
 

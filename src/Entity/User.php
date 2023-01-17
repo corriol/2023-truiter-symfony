@@ -50,9 +50,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[Vich\UploadableField(mapping: 'profile',fileNameProperty: 'profile')]
     private ?File $imageProfile = null;
 
+    #[ORM\ManyToMany(targetEntity: Tweet::class, inversedBy: 'linkingUsers')]
+    #[ORM\JoinTable(name:"users_liked_tweets")]
+    private Collection $likedTweets;
+
     public function __construct()
     {
         $this->tweets = new ArrayCollection();
+        $this->likedTweets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,5 +232,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     {
         list( $this->id, $this->username, $this->password) =
             unserialize($data, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @return Collection<int, Tweet>
+     */
+    public function getLikedTweets(): Collection
+    {
+        return $this->likedTweets;
+    }
+
+    public function addLikedTweet(Tweet $likedTweet): self
+    {
+        if (!$this->likedTweets->contains($likedTweet)) {
+            $this->likedTweets->add($likedTweet);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedTweet(Tweet $likedTweet): self
+    {
+        $this->likedTweets->removeElement($likedTweet);
+
+        return $this;
     }
 }

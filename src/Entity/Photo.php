@@ -39,7 +39,7 @@ class Photo
         $this->setHeight($dimensions[1]);
     }
 
-    #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\ManyToOne(inversedBy: 'attachments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tweet $tweet = null;
 

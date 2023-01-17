@@ -29,7 +29,7 @@ class Tweet
     #[Assert\NotBlank]
     private ?int $likeCount = null;
 
-    #[ORM\ManyToOne(inversedBy: 'attachments')]
+    #[ORM\ManyToOne(inversedBy: 'tweets')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank]
     private ?User $author = null;
@@ -37,9 +37,13 @@ class Tweet
     #[ORM\OneToMany(mappedBy: 'tweet', targetEntity: Photo::class)]
     private Collection $attachments;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'likedTweets')]
+    private Collection $linkingUsers;
+
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
+        $this->linkingUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,5 +131,32 @@ class Tweet
 
     public function addPhoto(Photo $photo): self {
         return $this->addAttachment($photo);
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getLinkingUsers(): Collection
+    {
+        return $this->linkingUsers;
+    }
+
+    public function addLinkingUser(User $linkingUser): self
+    {
+        if (!$this->linkingUsers->contains($linkingUser)) {
+            $this->linkingUsers->add($linkingUser);
+            $linkingUser->addLikedTweet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkingUser(User $linkingUser): self
+    {
+        if ($this->linkingUsers->removeElement($linkingUser)) {
+            $linkingUser->removeLikedTweet($this);
+        }
+
+        return $this;
     }
 }
