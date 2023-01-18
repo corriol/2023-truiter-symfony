@@ -4,19 +4,19 @@
         <div class="row justify-content-center">
             <div class="col-1 gx-2">
                 <img style="width: 50px" class="border border-light border-3 rounded-circle"
-{#                         {% if truit.author.profile %}
+                         {% if truit.author.profile %}
 
-                            src="{{ (profile_url ~ asset( truit.user.profile)) |  imagine_filter('thumb_50') }}"
-#}
-{#                        {% else %}#}
-                            src="{{ asset('assets/twitter-egg.avif') }}"
-{#                        {% endif %}#}
+                            src="{{ (profile_url ~ asset( truit.author.profile)) }}"
+
+                        {% else %}
+                           src="{{ asset('assets/twitter-egg.avif') }}"
+                        {% endif %}
                 >
             </div>
             <div class="col-11">
                 <div class="d-flex justify-content-between">
-                    <h5 class="card-title">{{ truit.author.name }}
-                        <small class="text-muted">@{{ truit.author.username }}</small></h5>
+                    <h5 class="card-title"><a href="{{ path('tweets_username', { username: truit.author.username }) }}">{{ truit.author.name }}
+                            <small class="text-muted">@{{ truit.author.username }}</small></a></h5>
                     <div>{{ truit.createdAt | date('Y-m-d h:i:s') }}</div>
 
                 </div>
@@ -41,7 +41,14 @@
     <div class="card-footer d-flex justify-content-between text-muted">
         <div class="pe-5"><i class="bi bi-chat"></i></div>
         <div class="pe-5"><i class="bi bi-arrow-repeat"></i></div>
-        <div class="pe-5"><i class="bi bi-heart"></i></div>
+        <div class="pe-5">
+            {%  if app.user not in truit.linkingUsers  %}
+            <a title="M'agrada" href="{{ path('tweet_like', { id: truit.id }) }}"><i class="bi bi-heart"></i></a>
+            {% else %}
+            <i class="text-danger bi bi-heart-fill"></i>
+            {% endif %}
+             <span class="ms-1">{{ truit.likeCount }}</span>
+        </div>
         <div class="pe-5"><i class="bi bi-share"></i></div>
     </div>
 

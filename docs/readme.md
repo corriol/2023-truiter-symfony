@@ -319,8 +319,16 @@ https://symfony.com/doc/5.4/form/form_collections.html
 (pendent)
 
 # Sessió 7: Relacions molts a molts
+ 
+## 1. Implementació del model de dades
+## 2. Creació del controlador
+## 3. Creació de les rutes 
 
-https://www.doctrine-project.org/projects/doctrine-orm/en/2.8/reference/association-mapping.html#many-to-many-unidirectional
+## Recursos
+- https://corriol.github.io/2023-dwes/08-symfony/11-relacions-molts-a-molts/
+- https://symfony.com/doc/current/doctrine/associations.html
+- https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/association-mapping.html
+- https://www.doctrine-project.org/projects/doctrine-orm/en/2.8/reference/association-mapping.html#many-to-many-unidirectional
 
 
 

@@ -55,4 +55,14 @@ class TweetController extends AbstractController
             'form' => $form
         ]);
     }
+    #[Route('/tweet/{id}/like', name: 'tweet_like')]
+    #[IsGranted('ROLE_USER')]
+    public function like(Tweet $tweet, TweetRepository $tweetRepository): Response {
+        $user = $this->getUser();
+        $tweet->addLinkingUser($user);
+        $tweet->setLikeCount($tweet->getLikeCount()+1);
+        $tweetRepository->save($tweet, true);
+
+        return $this->redirectToRoute('home');
+    }
 }
