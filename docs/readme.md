@@ -332,6 +332,55 @@ https://symfony.com/doc/5.4/form/form_collections.html
 
 
 
+# Sessió 8: Gestionant CSS i Javascript
 
+**Webpack** és una eina de construcció per a aplicacions web. Ajuda a agrupar i optimitzar els arxius JavaScript, CSS, 
+imatges i altres recursos per a la seva distribució als navegadors web. A més, proporciona característiques com la 
+*gestió de dependències* i el muntatge de mòduls, així com la capacitat de crear diversos paquets per a diferents entorns.
 
+- https://webpack.js.org/
+
+**Encore** és una eina de configuració de Webpack i un empaquetador d'aplicacions JavaScript per a Symfony. Proporciona 
+una forma fàcil i convenient d'utilitzar **Webpack** i gestionar recursos com fulls d'estil, JavaScript i imatges 
+en els projectes Symfony. Encore també permet la integració d'eines com Babel, Sass i TypeScript, i inclou funcions 
+com la divisió de codi i importacions dinàmiques.
+
+- https://symfony.com/doc/5.4/frontend/encore/installation.html
+
+## 1. Instal·lació de Node.js 18 LTS
+
+https://nodejs.org/en/download/
+https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+
+## 2. Webpack Encore
+
+composer require symfony/webpack-encore-bundle
+npm install
+npm run dev
+
+https://symfony.com/doc/5.4/frontend/encore/simple-example.html
+
+## 3. Instal·lació de Bootsrap
+
+npm install bootstrap --save-dev
+npm install bootstrap-icons --save-dev
+
+```
+// app.js
+import './styles/app.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+import 'bootstrap/dist/js/bootstrap';
+
+// start the Stimulus application
+import './bootstrap';
+```
+
+### `import` vs `require`
+En JavaScript, la declaració "import" s'utilitza per importar bindings que s'exporten des d'un altre mòdul. 
+És part del sistema de mòduls ECMAScript (ES), que és una manera d'incloure mòduls en JavaScript. D'altra banda, 
+la funció "require" s'utilitza per incloure un mòdul que ha estat exportat per un altre fitxer en CommonJS, 
+que és un sistema de mòduls de JavaScript utilitzat en Node.js. En resum, "import" s'utilitza en JavaScript modern 
+i "require" s'utilitza en versions antigues de JavaScript, especialment en Node.js.
 
