@@ -87,4 +87,26 @@ class TweetController extends AbstractController
 
         return new JsonResponse(["result"=>"ok"], Response::HTTP_OK);
     }
+
+    #[Route('/api/tweets/{id}', name: 'api_tweet_data')]
+    public function apiTweetData(Tweet $tweet, TweetRepository $tweetRepository): Response {
+        $user = $this->getUser();
+
+        if (!$user)
+            return new JsonResponse([
+                "result"=>$tweet->getLikeCount(),
+                "liked"=>false
+                ], Response::HTTP_OK);
+
+        if ($tweet->getLinkingUsers()->contains($user))
+            return new JsonResponse([
+                "result"=>$tweet->getLikeCount(),
+                "liked"=>true
+                ], Response::HTTP_OK);
+
+        return new JsonResponse([
+            "result"=>$tweet->getLikeCount(),
+            "liked"=>false
+        ], Response::HTTP_OK);
+    }
 }
