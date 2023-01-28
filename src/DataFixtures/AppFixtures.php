@@ -27,24 +27,35 @@ class AppFixtures extends Fixture
         $faker->addProvider(new \Mmo\Faker\LoremSpaceProvider($faker));
 
         for ($i=0; $i<20; $i++) {
-            $faker->picsum('resources', 100, 100);
             $faker->loremSpace(\Mmo\Faker\LoremSpaceProvider::CATEGORY_FACE, 'resources', 100, 100); // /tmp/fd3646c544a9a46bd16d1d097e737ee4.jpg
         }
 
-        $user = new User();
-        $user->setUsername("user");
-        $user->setName("Usuari de prova");
+        $array = [
+            ["user", "Usuari de prova", "user"],
+            ["admin", "Admnistrador", "admin"],
+            ["corriol", "Corriol", "corriol"]
+        ];
 
-        $hashedPassword = $this->passwordHasher->hashPassword($user, "user");
-        $user->setPassword($hashedPassword);
+        $totalUsers = count($array);
+        $users = [];
 
-        $user->setCreatedAt($faker->dateTimeInInterval('-1 year'));
-        $user->setVerified(false);
-        $manager->persist($user);
 
-        for ($i=0; $i<20; $i++) {
+        for ($i=0; $i < $totalUsers; $i++) {
+            $user = new User();
+            $user->setUsername($array[$i][0]);
+            $user->setName($array[$i][1]);
+
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $array[$i][2]);
+            $user->setPassword($hashedPassword);
+
+            $user->setCreatedAt($faker->dateTimeInInterval('-1 year'));
+            $user->setVerified(false);
+            $manager->persist($user);
+            $users[] = $user;
+        }
+        for ($i=0; $i<30; $i++) {
             $tweet = new Tweet();
-            $tweet->setAuthor($user);
+            $tweet->setAuthor($users[rand(0, $totalUsers-1)]);
             $tweet->setText($faker->text(280));
             $tweet->setCreatedAt($faker->dateTimeInInterval('-1 year', '1 year'));
             $tweet->setLikeCount(0);
