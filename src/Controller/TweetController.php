@@ -14,9 +14,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class TweetController extends AbstractController
 {
@@ -55,14 +57,56 @@ class TweetController extends AbstractController
             'form' => $form
         ]);
     }
-    #[Route('/tweet/{id}/like', name: 'tweet_like')]
+    #[Route('/tweets/{id}/like', name: 'tweet_like')]
     #[IsGranted('ROLE_USER')]
     public function like(Tweet $tweet, TweetRepository $tweetRepository): Response {
         $user = $this->getUser();
-        $tweet->addLinkingUser($user);
-        $tweet->setLikeCount($tweet->getLikeCount()+1);
-        $tweetRepository->save($tweet, true);
+        if (!$tweet->getLinkingUsers()->contains($user)) {
+            $tweet->addLinkingUser($user);
+            $tweet->setLikeCount($tweet->getLikeCount() + 1);
+            $tweetRepository->save($tweet, true);
+        }
 
         return $this->redirectToRoute('home');
+    }
+
+    #[Route('/api/tweets/{id}/like', name: 'api_tweet_like')]
+    public function apiLike(Tweet $tweet, TweetRepository $tweetRepository): Response {
+
+        $user = $this->getUser();
+
+        if (!$user)
+            return new JsonResponse(["result"=>"ko"], Response::HTTP_UNAUTHORIZED);
+
+        if ($tweet->getLinkingUsers()->contains($user))
+            return new JsonResponse(["result"=>"ko"], Response::HTTP_OK);
+
+        $tweet->addLinkingUser($user);
+        $tweet->setLikeCount($tweet->getLikeCount() + 1);
+        $tweetRepository->save($tweet, true);
+
+        return new JsonResponse(["result"=>"ok"], Response::HTTP_OK);
+    }
+
+    #[Route('/api/tweets/{id}', name: 'api_tweet_data')]
+    public function apiTweetData(Tweet $tweet, TweetRepository $tweetRepository): Response {
+        $user = $this->getUser();
+
+        if (!$user)
+            return new JsonResponse([
+                "result"=>$tweet->getLikeCount(),
+                "liked"=>false
+                ], Response::HTTP_OK);
+
+        if ($tweet->getLinkingUsers()->contains($user))
+            return new JsonResponse([
+                "result"=>$tweet->getLikeCount(),
+                "liked"=>true
+                ], Response::HTTP_OK);
+
+        return new JsonResponse([
+            "result"=>$tweet->getLikeCount(),
+            "liked"=>false
+        ], Response::HTTP_OK);
     }
 }
