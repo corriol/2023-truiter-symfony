@@ -384,3 +384,5 @@ la funció "require" s'utilitza per incloure un mòdul que ha estat exportat per
 que és un sistema de mòduls de JavaScript utilitzat en Node.js. En resum, "import" s'utilitza en JavaScript modern 
 i "require" s'utilitza en versions antigues de JavaScript, especialment en Node.js.
 
+### Stimulus
+https://symfonycasts.com/screencast/stimulus/targets
