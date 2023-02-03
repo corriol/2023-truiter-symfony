@@ -4,7 +4,7 @@ twig:
     form_themes: ['bootstrap_5_layout.html.twig']
 
     globals:
-        profile_url: '/images/profiles'
+        profile_url: '/images/photos'
 
 when@test:
     twig:
