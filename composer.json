@@ -57,6 +57,7 @@
             "*": "dist"
         },
         "sort-packages": true
+
     },
     "autoload": {
         "psr-4": {
