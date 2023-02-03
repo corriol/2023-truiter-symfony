@@ -2,6 +2,10 @@ PHP_CMD = docker exec -it 2023-truiter-symfony_web-server_1 php
 #PHP_CMD = php
 .DEFAULT_GOAL:=help
 rebuild:
+	-composer install
+	-npm install
+	-npm run dev
+
 	@ echo "Esborrant la base de dades..."
 	-$(PHP_CMD) bin/console doctrine:database:drop -n --force
 

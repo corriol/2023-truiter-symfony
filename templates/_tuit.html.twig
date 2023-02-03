@@ -39,7 +39,9 @@
         </div>
     </div>
     <div class="card-footer d-flex justify-content-between text-muted">
-        <div class="pe-5"><i class="bi bi-chat"></i></div>
+        <div data-controller="counter" class="pe-5"><i class="bi bi-chat"></i>
+            <span data-counter-target="count">0</span>
+        </div>
         <div class="pe-5"><i class="bi bi-arrow-repeat"></i></div>
         <div data-controller="like" data-like-id-value="{{ truit.id }}" data-like-url-value="{{ path('api_tweet_like', { id: truit.id }) }}" class="pe-5">
             <a title="M'agrada" data-like-target="icon" href="{{ path('tweet_like', { id: truit.id }) }}"><i class="bi bi-heart"></i></a>

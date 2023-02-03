@@ -384,6 +384,7 @@ la funció "require" s'utilitza per incloure un mòdul que ha estat exportat per
 que és un sistema de mòduls de JavaScript utilitzat en Node.js. En resum, "import" s'utilitza en JavaScript modern 
 i "require" s'utilitza en versions antigues de JavaScript, especialment en Node.js.
 
+<<<<<<< HEAD
 ## Desplegament
 
 Configurar la versió correct de PHP
@@ -391,3 +392,7 @@ https://support.plesk.com/hc/en-us/articles/115003766853-How-to-configure-a-spec
 
 [core:alert] /var/www/vhosts/example.com/httpdocs/.htaccess: Option FollowSymlinks not allowed here
 https://support.plesk.com/hc/en-us/articles/115001125289-A-website-hosted-in-Plesk-shows-500-Internal-Server-Error-Option-FollowSymLinks-not-allowed-here
+=======
+### Stimulus
+https://symfonycasts.com/screencast/stimulus/targets
+>>>>>>> d6b53ebc2bb93c84af5870282e9a3b1ceb977677
