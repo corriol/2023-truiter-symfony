@@ -37,14 +37,27 @@ class ComposeTweetPTest extends PantherTestCase
 
         $addPhoto = $crawler->selectButton('Add photo');
         $addPhoto->click();
-
         $client->takeScreenshot('./tests/screenshots/form.png');
 
-        $addPhoto->click();
-        $client->takeScreenshot('./tests/screenshots/form-2.png');
 
-        $this->assertSelectorExists('#tweet_attachments_0_altText');
-        $this->assertSelectorExists('#tweet_attachments_1_altText');
+        $buttonCrawlerNode = $crawler->selectButton('Crear');
+        $form = $buttonCrawlerNode->form();
+        $form["tweet[text]"] = "Proves";
+        $form["tweet[attachments][0][altText]"] = "Prova";
+        $form['tweet[attachments][0][photoFile][file]']->upload('/home/vicent/projectes/2023-truiter-symfony/resources/0a03b72fb8a7f1af44b41142ee744cee.jpg');
+
+        $client->submit($form);
+
+        $client->takeScreenshot('./tests/screenshots/form-2.png');
+        //$client->followRedirect();
+
+        $this->assertSelectorTextContains('p.card-text', 'Proves');
+
+        //$addPhoto->click();
+        //$client->takeScreenshot('./tests/screenshots/form-2.png');
+
+
+
 
     }
 
