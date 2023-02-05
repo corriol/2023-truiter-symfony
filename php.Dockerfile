@@ -1,5 +1,35 @@
 FROM php:8.1.10-apache
+
+RUN apt-get update
+
+# Install Postgre PDO
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
+
+RUN echo "deb-src http://deb.debian.org/debian bullseye main" > /etc/apt/sources.list.d/extra.list
+
+RUN apt-get update -y && apt-get install -y libpng-dev
+
+RUN apt-get update && \
+    apt-get install -y \
+        zlib1g-dev \
+        libjpeg-dev \
+        libfreetype6-dev \
+        libnss3 \
+        libxcb1
+
+
+#RUN docker-php-ext-install gd
+#RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd
+
+
 RUN docker-php-ext-install mysqli pdo pdo_mysql
+
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 # change document root directory
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public

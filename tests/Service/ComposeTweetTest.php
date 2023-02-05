@@ -34,6 +34,8 @@ class ComposeTweetTest extends WebTestCase
         $this->assertSelectorTextContains("p.card-text", "Proves d'enviament");
     }
 
+
+
     public function testErrorIsShown(): void
     {
         $client = static::createClient();

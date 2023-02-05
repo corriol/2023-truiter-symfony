@@ -92,10 +92,12 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.4.*"
+            "require": "5.4.*",
+            "docker": false
         }
     },
     "require-dev": {
+        "dbrekelmans/bdi": "^1.0",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "fakerphp/faker": "^1.21",
         "mmo/faker-images": "^0.7.0",
@@ -104,6 +106,7 @@
         "symfony/css-selector": "5.4.*",
         "symfony/debug-bundle": "5.4.*",
         "symfony/maker-bundle": "^1.0",
+        "symfony/panther": "^2.0",
         "symfony/phpunit-bridge": "^6.2",
         "symfony/stopwatch": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*",

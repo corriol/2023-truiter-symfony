@@ -147,6 +147,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/woodsandwalker/faker-picture" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mmo/faker-images" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/webpack-encore-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/php-webdriver/webdriver" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/panther" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dbrekelmans/bdi" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
